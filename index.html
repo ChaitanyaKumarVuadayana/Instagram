@@ -3,300 +3,192 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gravity</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+  <title>Self Destruct Page</title>
   <style>
-    @import compass;
-    
-    @function multiple-box-shadow($n) {
-      $value: '#{random(2000)}px #{random(2000)}px #FFF';
-      @for $i from 2 through $n {
-        $value: '#{$value}, #{random(2000)}px #{random(2000)}px #FFF';
-      }
-      @return unquote($value);
-    }
-    
-    $shadows-small: multiple-box-shadow(700);
-    $shadows-medium: multiple-box-shadow(200);
-    $shadows-big: multiple-box-shadow(100);
-    
-    #stars {
-      width: 1%;
-      height: 1%;
-      background: transparent;
-      box-shadow: $shadows-small;
-      animation: animStar 50s linear infinite;
-    }
-    
-    #stars:after {
-      content: " ";
-      position: absolute;
-      top: 100%;
-      width: 1px;
-      height: 1px;
-      background: transparent;
-      box-shadow: $shadows-small;
-    }
-    
-    #stars2 {
-      width: 2%;
-      height: 2%;
-      background: transparent;
-      box-shadow: $shadows-medium;
-      animation: animStar 100s linear infinite;
-    }
-    
-    #stars2:after {
-      content: " ";
-      position: absolute;
-      top: 100%;
-      width: 2px;
-      height: 2px;
-      background: transparent;
-      box-shadow: $shadows-medium;
-    }
-    
-    #stars3 {
-      width: 3%;
-      height: 3%;
-      background: transparent;
-      box-shadow: $shadows-big;
-      animation: animStar 150s linear infinite;
-    }
-    
-    #stars3:after {
-      content: " ";
-      position: absolute;
-      top: 100%;
-      width: 3px;
-      height: 3px;
-      background: transparent;
-      box-shadow: $shadows-big;
-    }
-    
-    html {
-      position: fixed;
-      height: 100%;
-      width: 100%;
-      font-family: 'lato', sans-serif;
-      color: #FFF;
-      background: radial-gradient(ellipse at bottom, #0C1116 0%, #090a0f 100%);
-    }
-    
-    #horizon {
-      position: absolute;
-      width: 160%;
-      height: 70%;
-      border-radius: 100% / 100%;
-      background: #038bff;
-      -webkit-filter: blur(30px);
-      left: 50%;
-      bottom: -20%;
-      margin-left: -80%;
-    }
-    
-    #horizon:before {
-      content: " ";
-      position: absolute;
-      width: 81.25%;
-      height: 70%;
-      border-radius: 100% / 100%;
-      background: #51AFFF;
-      -webkit-filter: blur(30px);
-      opacity: 0.6;
-      margin-left: 9.375%;
-    }
-    
-    #horizon:after {
-      content: " ";
-      position: absolute;
-      width: 32%;
-      height: 20%;
-      border-radius: 650px / 350px;
-      background: #B0DAFF;
-      -webkit-filter: blur(30px);
-      opacity: 0.5;
-      margin-left: 34%;
-    }
-    
-    .glow {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border-radius: 100% / 100%;
-      background: #215496;
-      -webkit-filter: blur(200px);
-      opacity: 0.7;
-      top: -10%;
-    }
-    
-    #earth {
-      position: absolute;
-      width: 200%;
-      height: 100%;
+    body {
       background: black;
-      border-radius: 100% / 100%;
-      left: 50%;
-      bottom: -50%;
-      margin-left: -100%;
+      color: #00ff00;
+      font-family: "Courier New", monospace;
+      text-align: center;
+      padding: 50px;
+      overflow: hidden;
     }
-    
-    #earth:before {
-      content: " ";
-      position: absolute;
+    h1 {
+      color: red;
+      font-size: 3rem;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px red, 0 0 20px #ff0000;
+      animation: glitch 1s infinite;
+    }
+    #terminal {
+      background: rgba(17,17,17,0.9);
+      border: 2px solid #00ff00;
+      padding: 20px;
+      width: 80%;
+      margin: 20px auto;
+      height: 200px;
+      overflow-y: auto;
+      text-align: left;
+      font-size: 1rem;
+      position: relative;
+    }
+    .button {
+      background: red;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      border-radius: 10px;
+      box-shadow: 0 0 10px red;
+    }
+    #countdown {
+      font-size: 2rem;
+      color: yellow;
+      margin-top: 20px;
+      text-shadow: 0 0 10px yellow;
+    }
+    .flash {
+      animation: flash 0.5s alternate infinite;
+    }
+    @keyframes flash {
+      from { background: black; }
+      to { background: red; }
+    }
+    @keyframes glitch {
+      0% { transform: skew(0deg); }
+      20% { transform: skew(5deg); color: #ff0000; }
+      40% { transform: skew(-5deg); color: #ff5555; }
+      60% { transform: skew(2deg); color: #ff2222; }
+      80% { transform: skew(-2deg); color: #ff0000; }
+      100% { transform: skew(0deg); }
+    }
+    /* Matrix Background */
+    #matrixCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
-      border-radius: 100% / 100%;
-      box-shadow: inset 0px 0px 62px 20px rgba(60, 105, 138, 0.85);
+      z-index: -1;
+      background: black;
     }
-    
-    #earth:after {
-      content: " ";
-      position: absolute;
+    /* CRT Overlay */
+    #crt {
+      pointer-events: none;
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
-      border-radius: 100% / 100%;
-      @include filter-gradient(#000000, #000000, horizontal);
-      @include background-image(linear-gradient(left, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 1) 100%));
+      background: repeating-linear-gradient(
+        rgba(0, 255, 0, 0.05) 0px,
+        rgba(0, 255, 0, 0.05) 2px,
+        transparent 2px,
+        transparent 4px
+      );
+      z-index: 5;
     }
-    
-    #title {
-      position: absolute;
-      font-weight: 300;
-      top: 36%;
-      left: 0;
-      right: 0;
-      margin-top: -80px;
-      font-size: 130px;
-      text-align: center;
-      letter-spacing: 20px;
-      padding-left: 20px;
-      background: -webkit-linear-gradient(white, rgb(219, 221, 224), #38495a);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation-duration: 6s;
-      animation-iteration-count: infinite;
-      animation-timing-function: ease;
-      animation-name: animGravity;
-    }
-    
-    #subtitle {
-      position: absolute;
-      font-weight: 300;
-      top: 70%;
-      left: 0;
-      right: 0;
-      font-size: 25px;
-      text-align: center;
-      letter-spacing: 6px;
-    }
-    
-    #subtitle span {
-      color: rgb(216, 216, 216);
-      animation-duration: 6s;
-      animation-iteration-count: infinite;
-      animation-timing-function: ease;
-    }
-    
-    #subtitle span:nth-child(1) {
-      animation-name: animDont;
-    }
-    
-    #subtitle span:nth-child(2) {
-      animation-name: animLet;
-    }
-    
-    #subtitle span:nth-child(3) {
-      animation-name: animGo;
-    }
-    
-    @keyframes animStar {
-      from {
-        transform: translateY(0px);
-      }
-      to {
-        transform: translateY(-2000px);
-      }
-    }
-    
-    @keyframes animGravity {
-      0% {
-        transform: translateY(-26px);
-        opacity: 0;
-      }
-      30%, 80% {
-        letter-spacing: 40px;
-        padding-left: 40px;
-        transform: translateY(0px);
-        opacity: 1;
-      }
-      92%, 100% {
-        letter-spacing: 35px;
-        padding-left: 35px;
-        transform: translateY(-4px);
-        opacity: 0;
-      }
-    }
-    
-    @keyframes animDont {
-      0%, 15% {
-        transform: translateY(-26px);
-        opacity: 0;
-      }
-      35%, 80% {
-        transform: translateY(0px);
-        opacity: 1;
-      }
-      92%, 100% {
-        transform: translateY(-4px);
-        opacity: 0;
-      }
-    }
-    
-    @keyframes animLet {
-      0%, 25% {
-        transform: translateY(-26px);
-        opacity: 0;
-      }
-      45%, 80% {
-        transform: translateY(0px);
-        opacity: 1;
-      }
-      92%, 100% {
-        transform: translateY(-4px);
-        opacity: 0;
-      }
-    }
-    
-    @keyframes animGo {
-      0%, 35% {
-        transform: translateY(-26px);
-        opacity: 0;
-      }
-      55%, 80% {
-        transform: translateY(0px);
-        opacity: 1;
-      }
-      92%, 100% {
-        transform: translateY(-4px);
-        opacity: 0;
-      }
+    /* Responsive Tweaks */
+    @media (max-width: 600px) {
+      h1 { font-size: 2rem; }
+      .button { padding: 10px 20px; font-size: 1rem; }
+      #terminal { font-size: 0.9rem; height: 150px; }
     }
   </style>
 </head>
 <body>
-  <div id="stars"></div>
-  <div id="stars2"></div>
-  <div id="stars3"></div>
-  <div id="horizon">
-    <div class="glow"></div>
-  </div>
-  <div id="earth"></div>
-  <div id="title">SPYING ON ME</div>
-  <div id="subtitle">
-    <span>Smart</span>
-    <span>enough to</span>
-    <span>find you 👀</span>
-  </div>
+  <canvas id="matrixCanvas"></canvas>
+  <div id="crt"></div>
+  <h1>⚠ INITIATE SELF-DESTRUCT ⚠</h1>
+  <button class="button" onclick="startDestruction()">Start Sequence</button>
+  <div id="countdown"></div>
+  <div id="terminal"></div>
+
+  <script>
+    // Matrix Background Effect
+    const canvas = document.getElementById("matrixCanvas");
+    const ctx = canvas.getContext("2d");
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    const letters = "01".split("");
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = [];
+
+    for (let x = 0; x < columns; x++) drops[x] = 1;
+
+    function drawMatrix() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#0F0";
+      ctx.font = fontSize + "px Courier New";
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      }
+    }
+    setInterval(drawMatrix, 35);
+
+    // Typing Effect
+    function typeLine(element, text, delay = 50) {
+      let i = 0;
+      const interval = setInterval(() => {
+        if (i < text.length) {
+          element.textContent += text[i];
+          i++;
+        } else clearInterval(interval);
+      }, delay);
+    }
+
+    // Start Destruction Sequence
+    function startDestruction() {
+      let logs = [
+        "> Initializing sequence...",
+        "> Accessing root kernel...",
+        "> Injecting malware...",
+        "> Wiping cache...",
+        "> Deleting memes...",
+        "> Overheating CPU...",
+        "> Tracing IP: 192.168." + Math.floor(Math.random()*255) + "." + Math.floor(Math.random()*255),
+        "> Contacting aliens..."
+      ];
+      let terminal = document.getElementById("terminal");
+      let countdown = document.getElementById("countdown");
+      let timeLeft = 10;
+
+      let logIndex = 0;
+      let logInterval = setInterval(() => {
+        if (logIndex < logs.length) {
+          let line = document.createElement("div");
+          terminal.appendChild(line);
+          typeLine(line, logs[logIndex]);
+          terminal.scrollTop = terminal.scrollHeight;
+          logIndex++;
+        }
+      }, 1200);
+
+      let timer = setInterval(() => {
+        countdown.textContent = "Self-destruct in " + timeLeft + " ...";
+        if (timeLeft <= 3) document.body.classList.add("flash");
+        if (timeLeft === 0) {
+          clearInterval(timer);
+          clearInterval(logInterval);
+          document.body.classList.remove("flash");
+          document.body.style.background = "red";
+          countdown.textContent = "💥 BOOM! Page Destroyed 💥";
+          let boom = new Audio("https://actions.google.com/sounds/v1/explosions/explosion.ogg");
+          boom.play();
+          setTimeout(() => {
+            window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+          }, 3000);
+        }
+        timeLeft--;
+      }, 1000);
+    }
+  </script>
 </body>
 </html>
